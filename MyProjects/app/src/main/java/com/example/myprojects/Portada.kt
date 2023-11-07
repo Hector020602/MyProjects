@@ -49,7 +49,6 @@ fun Portada(navController: NavHostController){
                 textAlign = TextAlign.Center,
                 fontSize = 50.sp,)
         }
-
     }
 }
 
@@ -64,7 +63,7 @@ fun MyBottomNavigation(navController: NavHostController) {
 
         NavigationBarItem(
             selected = false,
-            onClick = { navController.navigate("CoffeShops") },
+            onClick = { navController.navigate("CoffeeShops") },
             icon = { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "") },
             label = { Text("CoffeeShops") })
 

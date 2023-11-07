@@ -1,5 +1,6 @@
 package com.example.cafeshop
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +19,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -30,6 +34,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -54,36 +60,18 @@ import com.example.myprojects.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CoffeeShops(navController : NavHostController ) {
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        items(getCoffee()) { coffee ->
-            itemCoffee(coffee = coffee, navController = navController)
-        }
-    }
-
-    /*  Scaffold(topBar = { MyTopAppBar() })
-
-    {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = it.calculateTopPadding())
-        )
-        {
-            NavHost(navController = navController, startDestination = "Card") {
-                composable("Card") { CoffeeShops(navController ) }
-                composable("Comentarios/{cafeteriaName}",
-                    arguments = listOf(navArgument("cafeteriaName")
-                    {type = NavType.StringType}))
-                {backStackEntry ->
-                    Comentarios(backStackEntry.arguments?.getString("cafeteriaName") ?: "", navController)
+fun CoffeeShops(navController: NavHostController) {
+    Scaffold(bottomBar = ({ com.example.myprojects.MyBottomNavigation(navController) })) {
+        Box (modifier = Modifier.padding(bottom = it.calculateBottomPadding())){
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(getCoffee()) { coffee ->
+                    itemCoffee(coffee = coffee, navController = navController)
                 }
             }
-
         }
-
-    }*/
+    }
 }
 
 
@@ -132,7 +120,9 @@ fun itemCoffee(coffee: CoffeeInfo,navController: NavHostController) {
     var rating by remember { mutableStateOf(0) }
 
     Card (
-        modifier = Modifier.padding(top = 25.dp).clickable { navController.navigate("Comentarios/${coffee.name}")},
+        modifier = Modifier
+            .padding(top = 25.dp)
+            .clickable { navController.navigate("Comentarios/${coffee.name}") },
         elevation = CardDefaults.cardElevation(defaultElevation = 15.dp),
         colors = CardDefaults.cardColors(containerColor = Color.LightGray)
     ) {

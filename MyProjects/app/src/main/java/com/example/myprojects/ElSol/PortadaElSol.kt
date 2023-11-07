@@ -65,44 +65,31 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myprojects.MyBottomNavigation
 import com.example.myprojects.R
 import com.example.myprojects.ui.theme.ElSolTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Principal(navController: NavHostController){
+fun PortadaElSol(navController: NavHostController){
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    ElSolTheme {
-        val navController = rememberNavController()
-
-        NavHost(navController = navController, startDestination = "Principal") {
-            composable("Principal") { Principal(navController) }
-            composable("Filled.Email") { Email(navController, snackbarHostState =  SnackbarHostState()) }
-            composable("Filled.Info") { Info(navController, snackbarHostState =  SnackbarHostState()) }
-            composable("Filled.Build") { Build(navController) }
-
-        }
-    }
-
-    Box(modifier = Modifier.fillMaxSize()){
-
-    }
     Scaffold(snackbarHost = {
         SnackbarHost(hostState = snackbarHostState)
     },
-        bottomBar = {
+        topBar = {
             BottomAppBar(drawerState = drawerState)
 
-        }
+
+        }, bottomBar = { MyBottomNavigation(navController) }
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = it.calculateBottomPadding())
+                .padding(bottom = it.calculateBottomPadding(), top = it.calculateTopPadding())
         ) {
 
             val items = listOf(Icons.Default.Build, Icons.Default.Info, Icons.Default.Email)

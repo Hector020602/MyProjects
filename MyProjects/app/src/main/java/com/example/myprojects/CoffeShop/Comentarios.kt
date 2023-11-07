@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.myprojects.MyBottomNavigation
 
 import com.example.myprojects.ui.theme.Pink80
 
@@ -72,8 +74,8 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
         "Los platos muy bonitos todos de diseño que en el entorno del bar es ideal.",
         "Puntos negativos: el servicio es muy lento y los precios un poco elevados."
     )
-
-        Column (){
+    Scaffold (bottomBar = { MyBottomNavigation(navController = navController)}){
+        Column (modifier = Modifier.padding(bottom = it.calculateBottomPadding())){
             Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
                 Text(
                     text = nombreCafeteria,
@@ -123,5 +125,5 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                 }
             }
         }
-
+    }
 }
