@@ -92,10 +92,14 @@ fun PortadaElSol(navController: NavHostController){
                 .padding(bottom = it.calculateBottomPadding(), top = it.calculateTopPadding())
         ) {
 
+            //Creacion del desplegable lateral, con 3 opciones para que al clickar navegue
+
             val items = listOf(Icons.Default.Build, Icons.Default.Info, Icons.Default.Email)
             val selectedItem = remember {
                 mutableStateOf(items[0])
             }
+
+            //Desplegable Lateral
             ModalNavigationDrawer(drawerState = drawerState,
                 drawerContent = {
                     ModalDrawerSheet {
@@ -121,8 +125,7 @@ fun PortadaElSol(navController: NavHostController){
                         }
                     }
                 }, content = {
-
-                    SolVerticalGrid(navController)
+                    SolVerticalGrid(snackbarHostState)
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -134,19 +137,21 @@ fun PortadaElSol(navController: NavHostController){
     }
 }
 
+
+//Creacion de las cartas del sol en 2 filas
 @Composable
-fun SolVerticalGrid(navControler: NavHostController) {
+fun SolVerticalGrid(snackbarHostState: SnackbarHostState) {
     val context = LocalContext.current
     val solList = remember { getSol() }
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(solList) { solInfo ->
-            itemSol(solInfo = solInfo) {
-                Toast.makeText(context, solInfo.name, Toast.LENGTH_SHORT).show()
-            }
+            itemSol(solInfo = solInfo, snackbarHostState = snackbarHostState)
         }
     }
 }
 
+
+//Imagenes
 fun getSol(): List<SolInfo> {
     return listOf(
         SolInfo(
@@ -175,14 +180,17 @@ fun getSol(): List<SolInfo> {
         ),
     )
 }
+
+//Cada una de las cartas individualmente
 @Composable
-fun itemSol(solInfo: SolInfo, navController: () -> Unit) {
+fun itemSol(solInfo: SolInfo,snackbarHostState: SnackbarHostState) {
+    var scope = rememberCoroutineScope()
     var expanded by remember { mutableStateOf(false) }
     Card (
         modifier = Modifier
             .padding(top = 5.dp)
             .padding(horizontal = 5.dp)
-            .clickable {},
+            .clickable {scope.launch { snackbarHostState.showSnackbar(solInfo.name) }},
         elevation = CardDefaults.cardElevation(defaultElevation = 15.dp),
         colors = CardDefaults.cardColors(containerColor = Color.LightGray)
     ) {
@@ -213,6 +221,8 @@ fun itemSol(solInfo: SolInfo, navController: () -> Unit) {
                         contentDescription = "Buscar", tint = Color.Black,
                     )
                 }
+
+                //Menu de los 3 puntitos
                 DropdownMenu(expanded = expanded, onDismissRequest = { expanded = !expanded}) {
                     DropdownMenuItem(text = { Text(text = "Compartir") },
                         onClick = { /*TODO*/ }, leadingIcon = {
@@ -237,34 +247,9 @@ fun itemSol(solInfo: SolInfo, navController: () -> Unit) {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyModalDrawer(navControler: NavHostController,drawerState: DrawerState) {
-    ModalNavigationDrawer(drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet (content = { Text("Drawer title", modifier = Modifier.padding(16.dp))
-                Divider()
-                NavigationDrawerItem(
-                    label = { Text(text = "Build") },
-                    selected = false,
-                    onClick = { navControler.navigate("Build") }
-                )
-                NavigationDrawerItem(
-                    label = { Text(text = "Info") },
-                    selected = false,
-                    onClick = { /*TODO*/ }
-                )
-                NavigationDrawerItem(
-                    label = { Text(text = "Email") },
-                    selected = false,
-                    onClick = { /*TODO*/ }
-                )})
-        }
-    ) {
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 
+//Barra de arriba con: la flecha para ir al desplegable, el Corazon (BadgedBox) y el + (FAB)
 fun BottomAppBar(drawerState: DrawerState) {
     var badgeCount by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
@@ -280,6 +265,7 @@ fun BottomAppBar(drawerState: DrawerState) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(
                         onClick = {
+                            //Importante para poder navegar al Desplegable
                             scope.launch { drawerState.open() }
                         }
                     ) {

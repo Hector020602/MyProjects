@@ -47,6 +47,7 @@ import com.example.myprojects.R
 fun MyPhotos(navController: NavHostController) {
     var selectedImage by remember { mutableStateOf<ImageData?>(null) }
 
+    //De nuevo añadimos la BottonNavigation en MyPhotos, pasada por parametros del scaffold
     Scaffold(bottomBar = ({ com.example.myprojects.MyBottomNavigation(navController) })) {
         Column(
             modifier = Modifier
@@ -93,6 +94,7 @@ data class ImageData(
     @DrawableRes var photo: Int
 )
 
+//Imagenes
 fun getAboutData(): List<ImageData> {
     return listOf(
         ImageData(
@@ -122,6 +124,7 @@ fun getAboutData(): List<ImageData> {
     )
 }
 
+//Al clickar la imagen se hace grande en el medio de la pantalla
 @Composable
 fun ItemAbout(imageData: ImageData, onClick: () -> Unit) {
     Column(
@@ -140,27 +143,5 @@ fun ItemAbout(imageData: ImageData, onClick: () -> Unit) {
                 .fillMaxSize()
         )
 
-    }
-}
-@Composable
-fun MyBottomNavigation(navController: NavHostController) {
-    NavigationBar {
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("MyPhotos") },
-            icon = { Icon(imageVector = Icons.Default.Person, contentDescription = "") },
-            label = { Text("MyPhotos") })
-
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("CoffeShops") },
-            icon = { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "") },
-            label = { Text("CoffeeShops") })
-
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("ElSol")},
-            icon = { Icon(imageVector = Icons.Default.Star, contentDescription = "") },
-            label = { Text("ElSol") })
     }
 }

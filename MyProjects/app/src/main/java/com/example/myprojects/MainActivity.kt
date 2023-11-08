@@ -34,17 +34,23 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "Portada"){
+                        //Navhost Portada
                         composable("Portada"){ Portada(navController)}
+
+                        //Navhost MyPhotos
                         composable("MyPhotos"){ MyPhotos(navController)}
+
+                        //Navhost CoffeeShops
                         composable("CoffeeShops") { CoffeeShops(navController) }
-                        composable("ElSol"){ PortadaElSol(navController)}
                         composable("Comentarios/{cafeteriaName}",
                             arguments = listOf(navArgument("cafeteriaName")
                             {type = NavType.StringType}))
                         {backStackEntry ->
                             Comentarios(backStackEntry.arguments?.getString("cafeteriaName") ?: "", navController)
                         }
-                        composable("Principal") { PortadaElSol(navController) }
+                        //Navhost ElSol
+                        composable("ElSol"){ PortadaElSol(navController)}
+                        composable("PortadaElSol") { PortadaElSol(navController) }
                         composable("Filled.Email") { Email(navController) }
                         composable("Filled.Info") { Info(navController) }
                         composable("Filled.Build") { PortadaElSol(navController) }

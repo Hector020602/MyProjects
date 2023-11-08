@@ -38,6 +38,8 @@ import androidx.navigation.NavHostController
 @Composable
 fun Portada(navController: NavHostController){
 
+
+    //Scaffold con con la BottomNavigation pasada por parametros
     Scaffold(bottomBar = ({ MyBottomNavigation(navController) })) {
         Column(modifier = Modifier
             .fillMaxSize()
@@ -52,6 +54,8 @@ fun Portada(navController: NavHostController){
     }
 }
 
+
+//Creacion de la BottomNavigation,IMPORTANTE: el nombre del onclick tiene que ser IGUAL al de el navhost
 @Composable
 fun MyBottomNavigation(navController: NavHostController) {
     NavigationBar {

@@ -29,6 +29,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,6 +63,8 @@ import com.example.myprojects.R
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
+
+//Tenemos la BottomNavigation como siempre y una columna con las cartas de cafeterias
 fun CoffeeShops(navController: NavHostController) {
     Scaffold(bottomBar = ({ com.example.myprojects.MyBottomNavigation(navController) })) {
         Box (modifier = Modifier.padding(bottom = it.calculateBottomPadding())){
@@ -75,6 +78,7 @@ fun CoffeeShops(navController: NavHostController) {
 }
 
 
+//Nombres e imagenes de las cafeterias
 fun getCoffee(): List<CoffeeInfo> {
     return listOf(
         CoffeeInfo(
@@ -115,6 +119,7 @@ fun getCoffee(): List<CoffeeInfo> {
     )
 }
 
+//Creacion de cada carta, con su RatingBar, su boton.Y al darle a la carta navega a Comentarios
 @Composable
 fun itemCoffee(coffee: CoffeeInfo,navController: NavHostController) {
     var rating by remember { mutableStateOf(0) }
@@ -168,6 +173,8 @@ fun itemCoffee(coffee: CoffeeInfo,navController: NavHostController) {
     }
 }
 
+
+//Barra Estrellitas
 @Composable
 fun RatingBar(
     modifier: Modifier = Modifier,
@@ -189,43 +196,4 @@ fun RatingBar(
         }
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 
-fun MyTopAppBar() {
-    var expanded by remember { mutableStateOf(false) }
-    TopAppBar(
-        title = { Text(text = "TopAppBar") },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color.LightGray),
-        navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Back"
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = { expanded = !expanded }) {
-                Icon(
-                    imageVector = Icons.Filled.MoreVert,
-                    contentDescription = "Buscar", tint = Color.Black
-                )
-            }
-            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = !expanded}) {
-                DropdownMenuItem(text = { Text(text = "Compartir") },
-                    onClick = { /*TODO*/ }, leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Filled.Share, contentDescription = "Compartir"
-                        )
-                    })
-                DropdownMenuItem(text = { Text(text = "Album") },
-                    onClick = { /*TODO*/ }, leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Filled.Lock, contentDescription = "Album"
-                        )
-                    })
-            }
-        }
-    )
-}

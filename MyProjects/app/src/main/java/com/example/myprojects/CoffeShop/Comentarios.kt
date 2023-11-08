@@ -74,6 +74,8 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
         "Los platos muy bonitos todos de diseño que en el entorno del bar es ideal.",
         "Puntos negativos: el servicio es muy lento y los precios un poco elevados."
     )
+
+    //Tenemos la BottomNavigation abajo, un LazyVerticalStaggeredGrid con las cajas de los comentarios
     Scaffold (bottomBar = { MyBottomNavigation(navController = navController)}){
         Column (modifier = Modifier.padding(bottom = it.calculateBottomPadding())){
             Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
@@ -83,6 +85,8 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                     color = Color.Black,
                 )
             }
+
+            //Carta de cada comentario
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),
                 state = listState
@@ -101,6 +105,8 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                     }
                 }
 
+
+                //Esto hace que se vea o no el boton rosa al scrollear
                 val scrollOffset = listState.firstVisibleItemScrollOffset
                 if (scrollOffset > 0 && buttonVisible.value) {
                     buttonVisible.value = false
@@ -111,7 +117,9 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
             }
 
         }
-        Box(modifier = Modifier.fillMaxSize(),
+
+        //Un boton abajo del todo
+        Box(modifier = Modifier.fillMaxSize().padding(bottom = it.calculateBottomPadding()),
             contentAlignment = Alignment.BottomCenter) {
             if (!buttonVisible.value) {
                 Button(

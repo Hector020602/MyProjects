@@ -74,6 +74,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
+//En info tendremos: las barras de arriba(BottomAppBar), la de abajo(MyBottomNavigation), y el desplegable(NavigationDrawer)
 fun Info(navController: NavHostController) {
 
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
